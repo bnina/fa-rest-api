@@ -1,0 +1,67 @@
+plugins {
+  id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
+description = 'Dropwizard Example Application'
+group = 'io.dropwizard'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+import com.github.jengelman.gradle.plugins.shadow.transformers.ServiceFileTransformer
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+// Use Java 8 by default
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// The main class of the application
+mainClassName = 'com.example.helloworld.HelloWorldApplication'
+
+dependencies {
+    compile (        
+        'io.dropwizard:dropwizard-auth:1.0.5',
+        'io.dropwizard:dropwizard-core:1.0.5',
+        'io.dropwizard:dropwizard-client:1.0.5',
+        'io.dropwizard:dropwizard-assets:1.0.5',
+        'io.dropwizard:dropwizard-http2:1.0.5',
+        'io.dropwizard:dropwizard-hibernate:1.0.5',
+        'io.dropwizard:dropwizard-migrations:1.0.5',
+        'io.dropwizard:dropwizard-views-freemarker:1.0.5',
+        'io.dropwizard:dropwizard-views-mustache:1.0.5',
+        'io.dropwizard:dropwizard-metrics-graphite:1.0.5',
+        'io.dropwizard:dropwizard-servlets:1.0.5',
+        'io.dropwizard.metrics:metrics-core:1.0.5',
+        'io.dropwizard.metrics:metrics-annotation:1.0.5',
+        'com.h2database:h2:1.4.+'
+    )
+
+    testCompile (
+        'io.dropwizard:dropwizard-testing:1.0.5',
+        'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.25',
+        'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.25'
+    )
+}
+
+
+shadowJar {
+    // Append entries in META-INF/services resources into a single resource
+    transform(ServiceFileTransformer)
+
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+	exclude 'META-INF/*.SF'
+}
+
+// Configure the run task to start the Dropwizard service
+run {
+    args 'server', 'example.yml'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
+}

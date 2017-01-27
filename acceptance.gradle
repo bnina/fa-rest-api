@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2015 by PROS, Inc.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * PROS, Inc. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with PROS.
+ */
+
+dependencies {
+    testCompile (
+        
+        'info.cukes:cucumber-groovy:1.2.2',
+        'info.cukes:cucumber-junit:1.2.2',
+        'com.google.guava:guava:18.0',
+        'junit:junit:4.12',
+        'org.codehaus.groovy:groovy:2.4.3',
+        'org.glassfish.jersey.core:jersey-client:2.17',
+        'org.json:json:20140107',
+        'org.projectlombok:lombok:1.16.2',
+        'org.skyscreamer:jsonassert:1.2.3'
+    )
+
+    testRuntime (
+        'com.google.code.gson:gson:2.3.1',
+        'org.codehaus.groovy:groovy-json:2.4.3'
+    )
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'groovy'
+
+task cucumber() {
+    dependsOn test
+}
+
+/** Configure the gradle wrapper */
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
+}
